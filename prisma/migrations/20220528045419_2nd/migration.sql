@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Song" ALTER COLUMN "dateOfRealiese" SET DEFAULT CURRENT_TIMESTAMP;
