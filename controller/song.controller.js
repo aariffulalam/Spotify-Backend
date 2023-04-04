@@ -33,8 +33,6 @@ exports.postsong = async (req, res) => {
     })
 
     const date = new Date(song.dateOfRealiese)
-    console.log(date)
-
     if (songData === null) {
         songData = await prisma.song.create({
             data: {
