@@ -1,20 +1,24 @@
 const express = require('express');
+const {PrismaClient} = require('@prisma/client')
 const createError = require('http-errors');
 const morgan = require('morgan');
 require('dotenv').config();
 
 const app = express();
+const prisma = new PrismaClient();
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
 app.use(morgan('dev'));
 
 app.get('/', async (req, res, next) => {
-  res.send({ message: 'Awesome it works 🐻' });
+  let user = await prisma.user.findMany()
+  res.send({ message: 'Awesome it works 🐻' , users:user});
 });
 
-app.use('/spotify', require('./routes/song.route'));
-app.use('/spotify', require('./routes/user.route'));
-app.use('/spotify', require('./routes/auth.route'));
+app.use('/', require('./routes/song.route'));
+app.use('/', require('./routes/user.route'));
+app.use('/', require('./routes/auth.route'));
 
 
 app.use((req, res, next) => {
@@ -27,7 +31,7 @@ app.use((err, req, res, next) => {
     status: err.status || 500,
     message: err.message,
   });
-});
+})
 
-const PORT = process.env.PORT || 3000;
+const PORT = 4000;
 app.listen(PORT, () => console.log(`🚀 @ http://localhost:${PORT}`));

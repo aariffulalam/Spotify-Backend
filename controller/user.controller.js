@@ -5,9 +5,7 @@ const prisma = new PrismaClient();
 exports.songRating = async (req, res) => {
 
     const { userId } = req
-    // console.log("userId  -> ", userId)
     const { rating, songId } = req.body
-    // console.log(rating, songId)
     try {
         const rate = await prisma.rating.create({
             data: {
